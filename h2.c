@@ -1,3 +1,8 @@
+//Programme Name - PSP0.1
+//Name - K.K.S.T.Adikaram
+//Date - 2016/04/20
+//Description - Calculate Regression Parameteres, Coefficient , corelation using linked list
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
@@ -12,6 +17,7 @@ struct list_el
 //Define Node
 typedef struct list_el item;
 
+//Start Of Main
 int main()
 {
 //Define Node properties
@@ -24,7 +30,6 @@ FILE* pointer=NULL;
 //Define Variables
 float array[20];
 float array1[20];
-float a[10] = {186,699,132,272,291,331,199,1890,788,1601};
 int j;
 double xsq;
 double ysq;
@@ -45,6 +50,7 @@ double avg_y=0;
 
 //Open the data file
 pointer = fopen("Homework2_Test1.txt", "r");
+
 //Store the data to arrays from the pointer
 for(j=0;j<10;j++)
 {
@@ -58,7 +64,7 @@ for(j=0;j<10;j++)
 	printf("%.2f\n", array1[j]);
 }
 
-//Assigning two values to Each node 
+//Assigning two values which are taken from two arrays to Each node 
 for(j=0;j<10;j++)
 {
 	curr = (item *)malloc(sizeof(item));
@@ -124,6 +130,7 @@ printf("Estimation : %.3f\n\n",estimate);
 
 //close the file pointer
 fclose(pointer);
+
 return 0;
 
 }//End of Main
