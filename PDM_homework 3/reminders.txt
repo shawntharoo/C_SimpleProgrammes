@@ -1,0 +1,11 @@
+yesterday 30min
+today from 6.45 -8.00
+
+planning -8min
+design - 15min
+
+add 15
+modify 11
+deleted 17
+
+design error : since i use 16 elements for each node 0 values also has a log value
