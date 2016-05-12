@@ -27,9 +27,12 @@ head = NULL;
 //Define File Pointer
 FILE* pointer=NULL;
 
+//Varable Which should be change According to the Input data File
+//For Table 1 Values Test_Val=13 , for Table 2 Values Test_Val=16
+int Test_Val=13;
+
 //Define Variables
 float array[20];
-float array1[20];
 int j;
 double VS;
 double S;
@@ -45,14 +48,14 @@ double std;
 pointer = fopen("Homework3_Test1.txt", "r");
 
 //Store the data to a array from the pointer
-for(j=0;j<13;j++)
+for(j=0;j<Test_Val;j++)
 {
 	fscanf(pointer, "%f", &array[j]);
 }
 
 //Print the Input Data
 	printf("Input Data\n\n");
-for(j=0;j<13;j++)
+for(j=0;j<Test_Val;j++)
 {
 	printf("%.4f\n", array[j]);
 }
@@ -62,7 +65,7 @@ for(j=0;j<13;j++)
 //print the Log value
 printf("\n");
 printf("After Converting To the Log Values\n\n");
-for(j=0;j<13;j++)
+for(j=0;j<Test_Val;j++)
 {
 	curr = (item *)malloc(sizeof(item));
 	curr->val = array[j];
@@ -74,9 +77,9 @@ for(j=0;j<13;j++)
 }
 
 //calculate the average of data
-avg_y=total_y/13.0;
+avg_y=total_y/Test_Val;
 
-for(j=0;j<13;j++)
+for(j=0;j<Test_Val;j++)
 {
 	//printf("%.4f\n", curr->val1);
 		varience=varience+(((curr->val1)-avg_y)*((curr->val1)-avg_y));
@@ -85,7 +88,7 @@ for(j=0;j<13;j++)
 
 
 //calculate the squreroot of Varience
-std = sqrt(varience/12.0);
+std = sqrt(varience/(Test_Val-1));
 
 //Calculating Logarithamic Changes
 VS= avg_y -(2*std);
