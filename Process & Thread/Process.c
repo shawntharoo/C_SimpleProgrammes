@@ -77,7 +77,8 @@ int main(int argc, char *argv[])
 		int sema1,sema2,sema3;
 			
 		//Variables Related to Child Processes
-		int x=0;
+		int x=1;
+		int w=0;
 		int child_id;
 		int Fulltotal=0;
 		int j,z;
@@ -275,14 +276,14 @@ int main(int argc, char *argv[])
 			{
 				int stotal=0;
 				int num[1][K];
-				for(z=0;z<x;z++){
+				for(z=w;z<x;z++){
 					for(j=0;j<K;j++){
 						sem_wait(&SharedMemC->FC);
 						sem_wait(&SharedMemC->SC);
-						num[i][j] = SharedMemC->arrayC[i][j];
+						num[z][j] = SharedMemC->arrayC[z][j];
 						sem_post(&SharedMemC->SC);
 						sem_post(&SharedMemC->EC);
-						stotal = stotal + num[i][j];
+						stotal = stotal + num[z][j];
 					}
 				}
 				int pid = getpid();
@@ -307,10 +308,11 @@ int main(int argc, char *argv[])
 				sem_post(&SharedMemSub->E);
 				printf("process ID %d\n",pid);
 				printf("Sub Total %d\n",subTota);
+				printf("\n");
 				Fulltotal = Fulltotal+subTota;
 			}
 			x=x+1;
-			z=z+1;
+			w=w+1;
 		}
 		printf("Total of all the Sub Totals: %d\n",Fulltotal);   
 	}

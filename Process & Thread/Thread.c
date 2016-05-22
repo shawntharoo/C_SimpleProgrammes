@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define ThreadC 2
+#define ThreadC 100
 #define row 100
 #define column 50
 
@@ -59,6 +59,8 @@ struct SubTotals subtotal;
 
 void * producer(void *);
 void * consumer1(void *);
+void * consumer2(void *);
+void * consumer3(void *);
 
 pthread_t tid[ThreadC];
 /* array of thread IDs */
@@ -158,8 +160,11 @@ main( int argc, char *argv[] )
 
 		pthread_create(&tid[0], NULL, producer, NULL);
 		pthread_create(&tid[1], NULL, consumer1, NULL);
+		pthread_create(&tid[2], NULL, consumer2, NULL);
+		pthread_create(&tid[3], NULL, consumer3, NULL);
 
-		for ( i = 0; i < ThreadC; i++)
+
+		for ( i = 0; i < M+1; i++)
 		pthread_join(tid[i], NULL);
 		printf("\nAll %d threads have terminated\n", i);
 	}else{
@@ -207,32 +212,89 @@ void * producer(void * parm)
 void * consumer1(void * parm)
 {
 	int size = row * column;
-	int y=1;
 	int i,j,z,subtot;
 	pthread_t id;
 	id=pthread_self();
 	int num[1][K];
-	printf("Consumer Thread ID is : %u\n",id);
-	for(z=0;z<y;z++){
+	printf("Consumer1 Thread ID is : %u\n",id);
+	for(z=0;z<1;z++){
 		for(j=0;j<K;j++){
 	pthread_mutex_lock(&(metrixC.SC) );
-	if (metrixC.occupiedC <= 0) printf("consumer waiting.\n");
+	if (metrixC.occupiedC <= 0) printf("consumer1 waiting.\n");
 	while(metrixC.occupiedC <= 0)
 	pthread_cond_wait(&(metrixC.FC),&(metrixC.SC) );
-	printf("consumer executing.\n");
-	num[i][j] = metrixC.arrayC[z][K];
-	subtot = subtot + num[i][j];
+	printf("consumer1 executing.\n");
+	num[z][j] = metrixC.arrayC[z][j];
+	subtot = subtot + num[z][j];
 	metrixC.nextoutC++;
 	metrixC.nextoutC %= size;
 	metrixC.occupiedC--;
-	printf("Subtotal %d",subtot);
 	pthread_cond_signal(&(metrixC.EC));
 	pthread_mutex_unlock(&(metrixC.SC));
 	}
-	y=y+1;
-	z=z+1;
 	}
-	printf("Thread ID %u is exiting(Consumer).\n",id);
+	printf("Subtotal %d\n",subtot);
+	printf("Thread ID %u is exiting(Consumer1).\n",id);
+	printf("\n");
+	pthread_exit(0);
+}
+
+void * consumer2(void * parm)
+{
+	int size = row * column;
+	int i,j,z,subtot;
+	pthread_t id;
+	id=pthread_self();
+	int num[1][K];
+	printf("Consumer2 Thread ID is : %u\n",id);
+	for(z=1;z<2;z++){
+		for(j=0;j<K;j++){
+	pthread_mutex_lock(&(metrixC.SC) );
+	if (metrixC.occupiedC <= 0) printf("consumer2 waiting.\n");
+	while(metrixC.occupiedC <= 0)
+	pthread_cond_wait(&(metrixC.FC),&(metrixC.SC) );
+	printf("consumer2 executing.\n");
+	num[z][j] = metrixC.arrayC[z][j];
+	subtot = subtot + num[z][j];
+	metrixC.nextoutC++;
+	metrixC.nextoutC %= size;
+	metrixC.occupiedC--;
+	pthread_cond_signal(&(metrixC.EC));
+	pthread_mutex_unlock(&(metrixC.SC));
+	}
+	}
+	printf("Subtotal %d\n",subtot);
+	printf("Thread ID %u is exiting(Consumer2).\n",id);
+	printf("\n");
+	pthread_exit(0);
+}
+
+void * consumer3(void * parm)
+{
+	int size = row * column;
+	int i,j,z,subtot;
+	pthread_t id;
+	id=pthread_self();
+	int num[1][K];
+	printf("Consumer3 Thread ID is : %u\n",id);
+	for(z=2;z<3;z++){
+		for(j=0;j<K;j++){
+	pthread_mutex_lock(&(metrixC.SC) );
+	if (metrixC.occupiedC <= 0) printf("consumer3 waiting.\n");
+	while(metrixC.occupiedC <= 0)
+	pthread_cond_wait(&(metrixC.FC),&(metrixC.SC) );
+	printf("consumer3 executing.\n");
+	num[z][j] = metrixC.arrayC[z][j];
+	subtot = subtot + num[z][j];
+	metrixC.nextoutC++;
+	metrixC.nextoutC %= size;
+	metrixC.occupiedC--;
+	pthread_cond_signal(&(metrixC.EC));
+	pthread_mutex_unlock(&(metrixC.SC));
+	}
+	}
+	printf("Subtotal %d\n",subtot);
+	printf("Thread ID %u is exiting(Consumer2).\n",id);
 	printf("\n");
 	pthread_exit(0);
 }
